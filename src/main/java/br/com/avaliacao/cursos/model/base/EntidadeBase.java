@@ -29,11 +29,11 @@ public class EntidadeBase implements Serializable {
 	
 	@Basic
 	@Column(nullable = false)
-	protected boolean ativo;
+	protected Boolean ativo;
 
 	@Basic
-	@Column(name = "codigo", nullable = false, insertable = false, columnDefinition="serial", unique = true)
-	protected Long codigo;
+	@Column(name = "codigo", nullable = false, updatable = false, unique = true)
+	protected Integer codigo;
 
 	@Basic
 	@Column(name = "dt_registro", nullable = false)

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.avaliacao.cursos.WLogger;
+import br.com.avaliacao.cursos.exception.ValidationException;
 import br.com.avaliacao.cursos.model.Curso;
 import br.com.avaliacao.cursos.model.dto.CursoDTO;
 import br.com.avaliacao.cursos.service.CursoService;
@@ -35,7 +36,7 @@ public class CursoController {
 	@GetMapping("listar/todos")
 	public ResponseEntity<Object> listAllCursos() {
 		try {
-			List<Curso> all = cursoService.listAll();
+			List<CursoDTO> all = cursoService.listAllDTO();
 			return ResponseEntity.ok(all);
 		} catch (Exception e) {
 			WLogger.error(e);
@@ -43,11 +44,14 @@ public class CursoController {
 		}
 	}
 	
-	@PostMapping("registrar/")
+	@PostMapping("registrar")
 	public ResponseEntity<Object> registrar(@RequestBody CursoDTO cursoDTO) {
 		try {
-			
+			cursoService.registrarNovo(cursoDTO);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+		} catch (ValidationException e) {
+			WLogger.error(e);
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		} catch (Exception e) {
 			WLogger.error(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -55,10 +59,13 @@ public class CursoController {
 	}
 	
 	@PutMapping("atualizar/{codCurso}")
-	public ResponseEntity<Object> atualizar(@PathParam("codCurso") Long codCurso, @RequestBody CursoDTO cursoDTO) {
+	public ResponseEntity<Object> atualizar(@PathParam("codCurso") Integer codCurso, @RequestBody CursoDTO cursoDTO) {
 		try {
 			
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+		} catch (ValidationException e) {
+			WLogger.error(e);
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		} catch (Exception e) {
 			WLogger.error(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -66,10 +73,13 @@ public class CursoController {
 	}
 	
 	@DeleteMapping("remover/{codCurso}")
-	public ResponseEntity<Object> remover(@PathParam("codCurso") Long codCurso) {
+	public ResponseEntity<Object> remover(@PathParam("codCurso") Integer codCurso) {
 		try {
 			
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+		} catch (ValidationException e) {
+			WLogger.error(e);
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
 		} catch (Exception e) {
 			WLogger.error(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
