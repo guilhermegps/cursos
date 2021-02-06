@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ import br.com.avaliacao.cursos.service.CursoService;
  * 
  */
 @Controller
-@RequestMapping("/curso")
+@RequestMapping("rest/curso")
 public class CursoController {
 	
 	@Autowired
@@ -38,6 +39,17 @@ public class CursoController {
 		try {
 			List<CursoDTO> all = cursoService.listAllDTO();
 			return ResponseEntity.ok(all);
+		} catch (Exception e) {
+			WLogger.error(e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("buscar/{codCurso}")
+	public ResponseEntity<Object> buscarPorCodigo(@PathVariable("codCurso") Integer codCurso) {
+		try {
+			Curso curso = cursoService.findByCodigo(codCurso);
+			return ResponseEntity.ok((curso!=null) ? curso.convertToCursoDTO() : null);
 		} catch (Exception e) {
 			WLogger.error(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -58,10 +70,10 @@ public class CursoController {
 		}
 	}
 	
-	@PutMapping("atualizar/{codCurso}")
-	public ResponseEntity<Object> atualizar(@PathParam("codCurso") Integer codCurso, @RequestBody CursoDTO cursoDTO) {
+	@PutMapping("atualizar")
+	public ResponseEntity<Object> atualizar(@RequestBody CursoDTO cursoDTO) {
 		try {
-			
+			cursoService.atualizar(cursoDTO);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
 		} catch (ValidationException e) {
 			WLogger.error(e);
