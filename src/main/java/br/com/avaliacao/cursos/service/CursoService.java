@@ -97,4 +97,13 @@ public class CursoService {
 		curso.setCategoria(categoria);
 		cursoRepository.save(curso);
 	}
+
+	@Transactional
+	public void remover(Integer codCurso) {
+		Curso curso = findByCodigo(codCurso);
+		if(curso==null)
+			throw new ValidationException("Este curso não existe.");
+		
+		cursoRepository.delete(curso);
+	}
 }

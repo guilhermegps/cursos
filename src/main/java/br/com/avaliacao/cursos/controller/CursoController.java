@@ -84,10 +84,11 @@ public class CursoController {
 		}
 	}
 	
+	// Apenas para demonstração, na vida real utilizaria deleção lógica
 	@DeleteMapping("remover/{codCurso}")
-	public ResponseEntity<Object> remover(@PathParam("codCurso") Integer codCurso) {
+	public ResponseEntity<Object> remover(@PathVariable("codCurso") Integer codCurso) {
 		try {
-			
+			cursoService.remover(codCurso);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
 		} catch (ValidationException e) {
 			WLogger.error(e);
