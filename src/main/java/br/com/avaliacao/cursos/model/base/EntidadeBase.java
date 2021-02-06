@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -23,20 +24,19 @@ import lombok.Setter;
 public class EntidadeBase implements Serializable {
 	
 	@Id
-	@GeneratedValue
-    @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 	
 	@Basic
 	@Column(nullable = false)
-	protected Boolean ativo;
+	protected Boolean ativo = true;
 
 	@Basic
-	@Column(name = "codigo", nullable = false, updatable = false, unique = true)
+	@Column(name = "codigo", insertable = false, updatable = false, unique = true)
 	protected Integer codigo;
 
 	@Basic
-	@Column(name = "dt_registro", nullable = false)
+	@Column(name = "dt_registro", insertable = false, updatable = false)
 	protected Date dtRegistro;
 
 }

@@ -58,8 +58,8 @@ public class Curso extends EntidadeBase {
 				.ativo(ativo)
 				.dtRegistro(dtRegistro)
 				.descricao(descricao)
-				.dtFim(dtFim)
 				.dtInicio(dtInicio)
+				.dtFim(dtFim)
 				.qtdAlunos(qtdAlunos)
 				.build();
 		

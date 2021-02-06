@@ -47,7 +47,9 @@ public class CursoService {
 		
 		Date today = DateUtils.truncate(new Date(), Calendar.DATE);
 		if(cursoDTO.getDtInicio().before(today))
-			throw new ValidationException("Não é permitido registrar um curso com data de inicio passada.");
+			throw new ValidationException("A data de inicio não pode ser no passado.");
+		if(cursoDTO.getDtInicio().after(cursoDTO.getDtFim()))
+			throw new ValidationException("A data de inicio não pode ser após a data fim.");
 		
 		Categoria categoria = categoriaService.findByCodigo(cursoDTO.getCodCategoria());
 		Curso curso = cursoDTO.convertToCurso();

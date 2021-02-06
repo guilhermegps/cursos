@@ -2,6 +2,8 @@ package br.com.avaliacao.cursos.model.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.avaliacao.cursos.model.Curso;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,9 @@ public class CursoDTO {
 	private Date dtRegistro;
 	private boolean ativo;
 	private String descricao;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT-3")
 	private Date dtInicio;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT-3")
 	private Date dtFim;
 	private Integer qtdAlunos;
 	
@@ -32,7 +36,7 @@ public class CursoDTO {
 	public Curso convertToCurso() {
 		return Curso.builder()
 			.descricao(descricao)
-			.dtFim(dtFim)
+			.dtInicio(dtInicio)
 			.dtFim(dtFim)
 			.qtdAlunos(qtdAlunos)
 			.build();
