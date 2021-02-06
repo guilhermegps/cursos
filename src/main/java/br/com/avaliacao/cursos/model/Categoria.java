@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import br.com.avaliacao.cursos.model.base.EntidadeBase;
+import br.com.avaliacao.cursos.model.dto.CategoriaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +30,14 @@ public class Categoria extends EntidadeBase {
 	@Basic
 	@Column(length = 50, nullable = false)
 	private String descricao;
+	
+	public CategoriaDTO convertToCategoriaDTO(){
+		return CategoriaDTO.builder()
+				.codigo(codigo)
+				.dtRegistro(dtRegistro)
+				.ativo(ativo)
+				.descricao(descricao)
+				.build();
+	}
 
 }

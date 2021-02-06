@@ -16,26 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.avaliacao.cursos.WLogger;
 import br.com.avaliacao.cursos.exception.ValidationException;
-import br.com.avaliacao.cursos.model.Curso;
-import br.com.avaliacao.cursos.model.dto.CursoDTO;
-import br.com.avaliacao.cursos.service.CursoService;
-
+import br.com.avaliacao.cursos.model.Categoria;
+import br.com.avaliacao.cursos.model.dto.CategoriaDTO;
+import br.com.avaliacao.cursos.service.CategoriaService;
 
 /**
  * @author <a href="https://github.com/guilhermegps"> Guilherme GPS </a>
  * 
  */
 @Controller
-@RequestMapping("rest/curso")
-public class CursoController {
+@RequestMapping("rest/categoria")
+public class CategoriaController {
 	
 	@Autowired
-	private CursoService cursoService;
+	private CategoriaService categoriaService;
 	
 	@GetMapping("listar/todos")
-	public ResponseEntity<Object> listAllCursos() {
+	public ResponseEntity<Object> listAllCategorias() {
 		try {
-			List<CursoDTO> all = cursoService.listAllDTO();
+			List<CategoriaDTO> all = categoriaService.listAllDTO();
 			return ResponseEntity.ok(all);
 		} catch (Exception e) {
 			WLogger.error(e);
@@ -43,11 +42,11 @@ public class CursoController {
 		}
 	}
 	
-	@GetMapping("buscar/{codCurso}")
-	public ResponseEntity<Object> buscarPorCodigo(@PathVariable("codCurso") Integer codCurso) {
+	@GetMapping("buscar/{codCategoria}")
+	public ResponseEntity<Object> buscarPorCodigo(@PathVariable("codCategoria") Integer codCategoria) {
 		try {
-			Curso curso = cursoService.findByCodigo(codCurso);
-			return ResponseEntity.ok((curso!=null) ? curso.convertToCursoDTO() : null);
+			Categoria categoria = categoriaService.findByCodigo(codCategoria);
+			return ResponseEntity.ok((categoria!=null) ? categoria.convertToCategoriaDTO() : null);
 		} catch (Exception e) {
 			WLogger.error(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -55,9 +54,9 @@ public class CursoController {
 	}
 	
 	@PostMapping("registrar")
-	public ResponseEntity<Object> registrar(@RequestBody CursoDTO cursoDTO) {
+	public ResponseEntity<Object> registrar(@RequestBody CategoriaDTO categoriaDTO) {
 		try {
-			cursoService.registrarNovo(cursoDTO);
+			categoriaService.registrarNovo(categoriaDTO);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
 		} catch (ValidationException e) {
 			WLogger.error(e);
@@ -69,9 +68,9 @@ public class CursoController {
 	}
 	
 	@PutMapping("atualizar")
-	public ResponseEntity<Object> atualizar(@RequestBody CursoDTO cursoDTO) {
+	public ResponseEntity<Object> atualizar(@RequestBody CategoriaDTO categoriaDTO) {
 		try {
-			cursoService.atualizar(cursoDTO);
+			categoriaService.atualizar(categoriaDTO);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
 		} catch (ValidationException e) {
 			WLogger.error(e);
@@ -83,10 +82,10 @@ public class CursoController {
 	}
 	
 	// Apenas para demonstração, na vida real utilizaria deleção lógica
-	@DeleteMapping("remover/{codCurso}")
-	public ResponseEntity<Object> remover(@PathVariable("codCurso") Integer codCurso) {
+	@DeleteMapping("remover/{codCategoria}")
+	public ResponseEntity<Object> remover(@PathVariable("codCategoria") Integer codCategoria) {
 		try {
-			cursoService.remover(codCurso);
+			categoriaService.remover(codCategoria);
 			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
 		} catch (ValidationException e) {
 			WLogger.error(e);
