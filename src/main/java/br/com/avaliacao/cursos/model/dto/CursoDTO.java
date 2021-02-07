@@ -31,6 +31,7 @@ public class CursoDTO {
 	private Date dtFim;
 	private Integer qtdAlunos;
 	
+	private String descCategoria;
 	private Integer codCategoria;
 	
 	public Curso convertToCurso() {

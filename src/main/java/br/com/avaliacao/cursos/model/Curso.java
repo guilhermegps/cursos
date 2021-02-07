@@ -63,8 +63,10 @@ public class Curso extends EntidadeBase {
 				.qtdAlunos(qtdAlunos)
 				.build();
 		
-		if(categoria!=null)
+		if(categoria!=null) {
 			cursoDTO.setCodCategoria(categoria.getCodigo());
+			cursoDTO.setDescCategoria(categoria.getDescricao());
+		}
 			
 		return cursoDTO;
 	}
