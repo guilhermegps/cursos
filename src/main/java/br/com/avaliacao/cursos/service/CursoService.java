@@ -50,6 +50,18 @@ public class CursoService {
 		return allDTO;
 	}
 
+	public List<Curso> listForDescricao(String descricao) {
+		return cursoRepository.listForDescricao("%" + descricao.toUpperCase() + "%");
+	}
+
+	public List<CursoDTO> listForDescricaoDTO(String descricao) {
+		List<Curso> list = listForDescricao(descricao);
+		List<CursoDTO> listDTO = list.parallelStream().map(Curso::convertToCursoDTO)
+		.collect(Collectors.toList());
+		
+		return listDTO;
+	}
+
 	@Transactional
 	public void registrarNovo(CursoDTO cursoDTO) {
 		if(cursoDTO.getDtInicio().after(cursoDTO.getDtFim()))
@@ -81,6 +93,7 @@ public class CursoService {
 				|| !curso.getDtFim().equals(cursoDTO.getDtFim())) {
 			List<Curso> periodUsed = cursoRepository.listForPeriodUsed(cursoDTO.getDtInicio(), cursoDTO.getDtFim());
 			if( periodUsed!=null 
+					&& !periodUsed.isEmpty()
 					&& (periodUsed.size()>1 || !periodUsed.stream().findFirst().get().getId().equals(curso.getId())) )
 				throw new ValidationException("Existe(m) curso(s) planejados(s) dentro do período informado.");
 		}

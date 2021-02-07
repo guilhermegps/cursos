@@ -43,6 +43,17 @@ public class CursoController {
 		}
 	}
 	
+	@GetMapping("listar/porDescricao/{descricao}")
+	public ResponseEntity<?> listarPorDescricao(@PathVariable("descricao") String descricao) {
+		try {
+			List<CursoDTO> listaCursos = cursoService.listForDescricaoDTO(descricao);
+			return new ResponseEntity<>(listaCursos, HttpStatus.OK);
+		} catch (Exception e) {
+			WLogger.error(e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("buscar/{codCurso}")
 	public ResponseEntity<?> buscarPorCodigo(@PathVariable("codCurso") Integer codCurso) {
 		try {

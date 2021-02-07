@@ -25,5 +25,10 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
 			+ " where c.dtInicio between :dtInicio and :dtFim"
 			+ " or c.dtFim between :dtInicio and :dtFim")
 	public List<Curso> listForPeriodUsed(@Param("dtInicio") Date dtInicio, @Param("dtFim") Date dtFim);
+
+
+	@Query("select distinct c from Curso c"
+			+ " where upper(c.descricao) like (:descricao)")
+	public List<Curso> listForDescricao(@Param("descricao") String descricao);
 	
 }
