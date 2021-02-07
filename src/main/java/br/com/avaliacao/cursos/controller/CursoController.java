@@ -33,67 +33,67 @@ public class CursoController {
 	private CursoService cursoService;
 	
 	@GetMapping("listar/todos")
-	public ResponseEntity<Object> listAllCursos() {
+	public ResponseEntity<?> listAllCursos() {
 		try {
 			List<CursoDTO> all = cursoService.listAllDTO();
-			return ResponseEntity.ok(all);
+			return new ResponseEntity<>(all, HttpStatus.OK);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping("buscar/{codCurso}")
-	public ResponseEntity<Object> buscarPorCodigo(@PathVariable("codCurso") Integer codCurso) {
+	public ResponseEntity<?> buscarPorCodigo(@PathVariable("codCurso") Integer codCurso) {
 		try {
 			Curso curso = cursoService.findByCodigo(codCurso);
-			return ResponseEntity.ok((curso!=null) ? curso.convertToCursoDTO() : null);
+			return new ResponseEntity<>((curso!=null) ? curso.convertToCursoDTO() : null, HttpStatus.OK);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping("registrar")
-	public ResponseEntity<Object> registrar(@RequestBody CursoDTO cursoDTO) {
+	public ResponseEntity<?> registrar(@RequestBody CursoDTO cursoDTO) {
 		try {
 			cursoService.registrarNovo(cursoDTO);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PutMapping("atualizar")
-	public ResponseEntity<Object> atualizar(@RequestBody CursoDTO cursoDTO) {
+	public ResponseEntity<?> atualizar(@RequestBody CursoDTO cursoDTO) {
 		try {
 			cursoService.atualizar(cursoDTO);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	// Apenas para demonstração, na vida real utilizaria deleção lógica
 	@DeleteMapping("remover/{codCurso}")
-	public ResponseEntity<Object> remover(@PathVariable("codCurso") Integer codCurso) {
+	public ResponseEntity<?> remover(@PathVariable("codCurso") Integer codCurso) {
 		try {
 			cursoService.remover(codCurso);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

@@ -32,67 +32,67 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 	
 	@GetMapping("listar/todos")
-	public ResponseEntity<Object> listAllCategorias() {
+	public ResponseEntity<?> listAllCategorias() {
 		try {
 			List<CategoriaDTO> all = categoriaService.listAllDTO();
-			return ResponseEntity.ok(all);
+			return new ResponseEntity<>(all, HttpStatus.OK);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping("buscar/{codCategoria}")
-	public ResponseEntity<Object> buscarPorCodigo(@PathVariable("codCategoria") Integer codCategoria) {
+	public ResponseEntity<?> buscarPorCodigo(@PathVariable("codCategoria") Integer codCategoria) {
 		try {
 			Categoria categoria = categoriaService.findByCodigo(codCategoria);
-			return ResponseEntity.ok((categoria!=null) ? categoria.convertToCategoriaDTO() : null);
+			return new ResponseEntity<>((categoria!=null) ? categoria.convertToCategoriaDTO() : null, HttpStatus.OK);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping("registrar")
-	public ResponseEntity<Object> registrar(@RequestBody CategoriaDTO categoriaDTO) {
+	public ResponseEntity<?> registrar(@RequestBody CategoriaDTO categoriaDTO) {
 		try {
 			categoriaService.registrarNovo(categoriaDTO);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PutMapping("atualizar")
-	public ResponseEntity<Object> atualizar(@RequestBody CategoriaDTO categoriaDTO) {
+	public ResponseEntity<?> atualizar(@RequestBody CategoriaDTO categoriaDTO) {
 		try {
 			categoriaService.atualizar(categoriaDTO);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	// Apenas para demonstração, na vida real utilizaria deleção lógica
 	@DeleteMapping("remover/{codCategoria}")
-	public ResponseEntity<Object> remover(@PathVariable("codCategoria") Integer codCategoria) {
+	public ResponseEntity<?> remover(@PathVariable("codCategoria") Integer codCategoria) {
 		try {
 			categoriaService.remover(codCategoria);
-			return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ValidationException e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
 			WLogger.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

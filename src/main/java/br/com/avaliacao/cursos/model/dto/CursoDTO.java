@@ -25,9 +25,9 @@ public class CursoDTO {
 	private Date dtRegistro;
 	private boolean ativo;
 	private String descricao;
-	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT-3")
+	@JsonFormat(timezone="GMT-3")
 	private Date dtInicio;
-	@JsonFormat(pattern="yyyy-MM-dd", timezone="GMT-3")
+	@JsonFormat(timezone="GMT-3")
 	private Date dtFim;
 	private Integer qtdAlunos;
 	
